@@ -25,3 +25,5 @@ run it with:
 ```
 ansible-playbook wp_setup.yml
 ```
+
+After the installation you can access it on: http://your_server_ip/
