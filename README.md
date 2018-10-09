@@ -19,6 +19,7 @@ python version: 2.7.10
 **Notes:**
 
 ```
+- make sure your target machine can be accessed on ports 22 and 80
 - make sure python is installed on the target machine, ansible doesnt work without that
 - make sure you edit the ansible.cfg file with your credentials
 - make sure you edit the hosts file with your target servers and your ssh user to be connecting
