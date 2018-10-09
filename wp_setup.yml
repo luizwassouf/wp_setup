@@ -4,8 +4,18 @@
 #habilitar o auto updates de pacotes de segurança, adicionar o webserver e o processador php...
 #[20:40, 1/10/2018] +55 11 98031-7777: e, claro , colocar a  ultima versão do wordpress lá :)
 #[20:40, 1/10/2018] +55 11 98031-7777: como um bonus: instalar o wordpress via cli, pode usar o wp-cli.org
+
+
 ---
 - hosts: "all" 
+  pre_tasks:
+    - name: Install base packages
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - openssl
+   
   roles:        
-    - { role: "set_hostname" }
+    - { role: "set_hostname"}
 

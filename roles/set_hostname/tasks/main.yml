@@ -1,5 +1,10 @@
 ---
 
+#getting the current hostname
+- name: checking if the hostname is already setted
+  shell: hostname | grep "{{ application_type }}-{{ application_name }}" | wc -l
+  register: current_hostname
+
 #generating a random hostname
 - name: generating hostname
   shell: echo "{{ application_type }}-{{ application_name }}-$(openssl rand -hex 4)"
@@ -9,6 +14,7 @@
 - name: setting hostname
   hostname:
     name: "{{ hostname_generated.stdout }}"
+  when: (current_hostname.stdout == "0")
 
 #adding it to the hosts file
 - name: add to hosts
@@ -17,3 +23,4 @@
     regexp='^127\.0\.0\.1'
     line='127.0.0.1 localhost {{ hostname_generated.stdout }}'
     state=present
+  when: (current_hostname.stdout == "0")
