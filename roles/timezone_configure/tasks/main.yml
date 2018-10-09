@@ -1,0 +1,9 @@
+---
+#setting the timezone on server
+#It is recommended to restart crond after changing the timezone, otherwise the jobs may run at the wrong time.
+
+- name: setting the timezone
+  timezone:
+    name: "{{ timezone }}"
+  notify:
+    - restart crond

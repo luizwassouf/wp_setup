@@ -19,5 +19,6 @@
    
   roles:        
     - { role: "manage_apt" }
+    - { role: "timezone_configure" }
     - { role: "set_hostname" }
 
