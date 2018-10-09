@@ -1,0 +1,11 @@
+#podemos setar um hostname, adicionar uma linha do hostname no /etc/hosts apontando pra 127.0.0.1,
+#vamos forçar o apt pra ele forçar apenas se conectar nos repositorios em ipv4,
+#acertar o timezone pra america/sao_paulo,
+#habilitar o auto updates de pacotes de segurança, adicionar o webserver e o processador php...
+#[20:40, 1/10/2018] +55 11 98031-7777: e, claro , colocar a  ultima versão do wordpress lá :)
+#[20:40, 1/10/2018] +55 11 98031-7777: como um bonus: instalar o wordpress via cli, pode usar o wp-cli.org
+---
+- hosts: "all" 
+  roles:        
+    - { role: "set_hostname" }
+

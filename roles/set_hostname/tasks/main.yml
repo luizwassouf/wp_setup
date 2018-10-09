@@ -1,0 +1,19 @@
+---
+
+#generating a random hostname
+- name: generating hostname
+  shell: echo "{{ application_type }}-{{ application_name }}-$(openssl rand -hex 4)"
+  register: hostname_generated
+
+#setting the hostname generated
+- name: setting hostname
+  hostname:
+    name: "{{ hostname_generated.stdout }}"
+
+#adding it to the hosts file
+- name: add to hosts
+  lineinfile: >
+    dest=/etc/hosts
+    regexp='^127\.0\.0\.1'
+    line='127.0.0.1 localhost {{ hostname_generated.stdout }}'
+    state=present
