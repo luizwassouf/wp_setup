@@ -11,6 +11,7 @@
 **Notes:**
 
 ```
+- make sure python is installed on the target machine, ansible doesnt work without that
 - this recipe was made to run in a Ubuntu 16.04 distro
 - make sure you edit the ansible.cfg file with your credentials
 - make sure you edit the hosts file with your target servers and your ssh user to be connecting
