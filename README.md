@@ -15,6 +15,7 @@
 - this recipe was made to run in a Ubuntu 16.04 distro
 - make sure you edit the ansible.cfg file with your credentials
 - make sure you edit the hosts file with your target servers and your ssh user to be connecting
+- make sure your ssh user can do sudo
 - execution log will be saved to ./wp_setup.log file
 ```
 
