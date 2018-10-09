@@ -1,0 +1,5 @@
+---
+wp_user: wordpress
+directories:
+  - /var/www/html/wordpress
+  - /var/www/html/wordpress/public_html

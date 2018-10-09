@@ -1,0 +1,82 @@
+---
+#wp-cli installation
+- name: creating wp-cli phar directory
+  file:
+    path: /root/wp-cli
+    state: directory
+    mode: 0755
+
+- name: download worpress-cli phar from wp-cli.org
+  shell: cd /root/wp-cli/ && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+
+- name: verify if the phar file is working
+  shell: php /root/wp-cli/wp-cli.phar --info
+
+- name: set execution permission to wp-cli.phar
+  file:
+    path: /root/wp-cli/wp-cli.phar
+    mode: 0755
+
+- name: put the wp-cli in /usr/local/bin
+  shell: mv /root/wp-cli/wp-cli.phar /usr/local/bin/wp
+
+#wordpress installation
+
+#As a recommended practice, you should change the ownership of your installation directory to the www-data group
+
+- name: allow www-data group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%www-data'
+    line: '%www-data ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: adding existing user "{{ wp_user }}" to group www-data
+  user:
+    name: "{{ wp_user }}"
+    groups: www-data
+    append: yes
+
+- name: creating wordpress directories for apache
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ wp_user }}"
+    group: www-data
+    mode: 0755
+  with_items:
+    - "{{ directories }}"
+
+- name: downloading wordpress via cli
+  shell: wp core download
+  args:
+    chdir: /var/www/html/wordpress/public_html
+  register: command_result
+  failed_when: "'WordPress files seem to already be present here' not in command_result.stderr and 'Success' not in command_result.stdout"
+  become: True
+  become_method: 'sudo'
+  become_user: "{{ wp_user }}"
+
+- name: creating wp-config.php file
+  shell: wp core config --dbname=wordpress --dbuser=wordpress --dbpass=wordpress --dbhost=localhost --dbprefix=wp_
+  args:
+    chdir: /var/www/html/wordpress/public_html
+  register: command_result
+  failed_when: "'file already exists' not in command_result.stderr and 'Success' not in command_result.stdout"
+  become: True
+  become_method: 'sudo'
+  become_user: "{{ wp_user }}"
+
+- name: updating default apache site
+  lineinfile: 
+    dest=/etc/apache2/sites-enabled/000-default.conf 
+    regexp=".*DocumentRoot /var/www/html"
+    line="DocumentRoot /var/www/html/wordpress/public_html/"
+  notify:
+    - restart apache2
+
+
+
+
+

@@ -1,0 +1,6 @@
+---
+#install packages that will be used
+- name: install base packages
+  apt:
+    name: "{{ packages }}"
+

@@ -1,0 +1,5 @@
+---
+packages:
+  - php-gd 
+  - libssh2-1
+  - php-ssh2

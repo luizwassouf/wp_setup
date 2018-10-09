@@ -1,4 +1,8 @@
 ---
+#install packages that will be used
+- name: installing base packages
+  apt:
+    name: "{{ packages }}"
 
 #getting the current hostname
 - name: checking if the hostname is already setted
@@ -18,10 +22,10 @@
   when: (current_hostname.stdout == "0")
 
 #adding it to the hosts file
-- name: add to hosts
+- name: adding to hosts
   lineinfile: >
     dest=/etc/hosts
     regexp='^127\.0\.0\.1'
-    line='127.0.0.1 localhost {{ hostname_generated.stdout }}'
+    line='127.0.0.1 localhost {{ hostname_generated.stdout }} {{ hostname_generated.stdout }}.localdomain'
     state=present
   when: (current_hostname.stdout == "0")

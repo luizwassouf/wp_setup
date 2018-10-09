@@ -1,4 +1,9 @@
 ---
+#install packages that will be used
+- name: installing base packages
+  apt:
+    name: "{{ packages }}"
+
 # persisting the ipv4 force configuration
 - name: "persisting the ipv4 force configuration"
   copy:
