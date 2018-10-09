@@ -17,3 +17,11 @@
 - make sure you edit the hosts file with your target servers and your ssh user to be connecting
 - execution log will be saved to ./wp_setup.log file
 ```
+
+**Running:**
+
+run it with:
+
+```
+ansible-playbook wp_setup.yml
+```
