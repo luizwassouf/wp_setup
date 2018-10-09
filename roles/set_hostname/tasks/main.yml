@@ -9,6 +9,7 @@
 - name: generating hostname
   shell: echo "{{ application_type }}-{{ application_name }}-$(openssl rand -hex 4)"
   register: hostname_generated
+  when: (current_hostname.stdout == "0")
 
 #setting the hostname generated
 - name: setting hostname

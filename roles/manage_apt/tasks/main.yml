@@ -1,0 +1,37 @@
+---
+# persisting the ipv4 force configuration
+- name: "persisting the ipv4 force configuration"
+  copy:
+    content: "Acquire::ForceIPv4 true;" 
+    dest: "/etc/apt/apt.conf.d/1000-force-ipv4-transport"
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+
+# enabling security auto updates configuration
+- name: "changing unattended-upgrades configuration"
+  copy:
+    src: 50unattended-upgrades
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "changing auto-upgrades configuration"
+  copy:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    backup: yes
+    owner: root
+    group: root
+    mode: 0644
+  
+
+#updating apt in order to using ipv4 only
+- name: "updating apt"
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    upgrade: dist
